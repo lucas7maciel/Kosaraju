@@ -2,6 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <fstream>
+#include <sstream>
+
+#include "graph.h"
 
 using namespace std;
 
@@ -42,8 +46,6 @@ public:
 
     void print()
     {
-        cout << "Componentes conexos:" << endl;
-
         Graph reversed = this->getReversed();
 
         stack<int> stack;
@@ -104,23 +106,80 @@ private:
     }
 };
 
-int main()
+int printSolution(char *inputPath)
 {
-    int size, edges;
+    ifstream inputFile(inputPath);
 
-    cin >> size >> edges;
-
-    Graph graph(size);
-
-    for (int i = 0; i < edges; i++)
+    if (inputFile.is_open())
     {
-        int from, to;
+        string line;
 
-        cin >> from >> to;
-        graph.addEdge(from - 1, to - 1);
+        //
+        int size, edges;
+
+        if (getline(inputFile, line))
+        {
+            stringstream ss(line);
+
+            if (ss >> size >> edges)
+            {
+            }
+            else
+            {
+                cout << "Error reading numbers from line: " << line << endl;
+            }
+        }
+        else
+        {
+            cout << "Falha ao informar entradas corretamente";
+            return 0;
+        }
+
+        //
+        Graph graph(size);
+
+        for (int i = 0; i < edges; i++)
+        {
+            if (!getline(inputFile, line))
+            {
+                cout << "Faltam linhas no input";
+                return 0;
+            }
+
+            stringstream ss(line);
+            int from, to;
+
+            ss >> from >> to;
+
+            graph.addEdge(from - 1, to - 1);
+        }
+
+        graph.print();
+
+        inputFile.close();
+    }
+    else
+    {
+        cout << "Falha ao abrir arquivo informado, verifique se o caminho esta correto";
     }
 
-    graph.print();
-
     return 0;
-};
+}
+//     int size, edges;
+
+//     cout << inputPath;
+
+//     cin >> size >> edges;
+
+//     Graph graph(size);
+
+//     for (int i = 0; i < edges; i++)
+//     {
+//         int from, to;
+
+//         cin >> from >> to;
+//         graph.addEdge(from - 1, to - 1);
+//     }
+
+//     graph.print();
+// };

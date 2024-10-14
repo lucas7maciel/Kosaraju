@@ -1,0 +1,3 @@
+
+void printInstructions();
+void printHelper();

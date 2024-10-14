@@ -1,0 +1,2 @@
+
+int printSolution(char* inputPath);

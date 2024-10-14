@@ -1,30 +1,33 @@
 #include <iostream>
 #include <string.h>
 
-#include "solution/main.h"
+#include "solution/graph.h"
+#include "utils/helper.h"
 
 using namespace std;
 
 int main(int argc, char **args)
 {
-    // Checar inputs
-    // if (n tem arg)
     if (argc == 1)
     {
-        printSolution();
-        cout << endl;
+        printInstructions();
     }
     else if (!strcmp("-h", args[1]))
     {
-        cout << "eh h\n";
+        printHelper();
     }
     else if (!strcmp("-o", args[1]))
     {
-        cout << "eh o\n";
+        cout << "Redirecionando saída para" << args[2];
     }
     else if (!strcmp("-f", args[1]))
     {
-        cout << "eh f\n";
+        if (argc == 2) {
+            cout << "Por favor especifique o arquivo de entrada";
+            return 0;
+        }
+
+        printSolution(args[2]);
     }
 
     return 0;
