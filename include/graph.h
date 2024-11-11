@@ -1,2 +1,4 @@
+#include <string>
+using namespace std;
 
-int printSolution(char* inputPath);
+int printSolution(string inputPath, string outputPath);

@@ -1,34 +1,45 @@
 #include <iostream>
 #include <string.h>
 
-#include "solution/graph.h"
-#include "utils/helper.h"
+#include "../include/graph.h"
+#include "../include/helper.h"
 
 using namespace std;
 
 int main(int argc, char **args)
 {
-    if (argc == 1)
+    string outputPath, inputPath;
+
+    // Checar opcoes escolhidas
+    for (int i = 0; i < argc; i++)
     {
-        printInstructions();
-    }
-    else if (!strcmp("-h", args[1]))
-    {
-        printHelper();
-    }
-    else if (!strcmp("-o", args[1]))
-    {
-        cout << "Redirecionando saída para" << args[2];
-    }
-    else if (!strcmp("-f", args[1]))
-    {
-        if (argc == 2) {
-            cout << "Por favor especifique o arquivo de entrada";
-            return 0;
+        // Printar helper
+        if (!strcmp(args[i], "-h"))
+        {
+            printHelper();
         }
 
-        printSolution(args[2]);
+        // Redirecionar saida para arquivo
+        if (!strcmp(args[i], "-o") && i != argc - 1)
+        {
+            outputPath = args[++i];
+        }
+        else if (!strcmp(args[i], "-o"))
+        {
+            printf("Um caminho para o arquivo precisa ser especificado apos '-o'\n");
+        }
+
+        // Indicar arquivo que contem o grafo de entrada
+        if (!strcmp(args[i], "-f") && i != argc - 1)
+        {
+            inputPath = args[++i];
+        }
+        else if (!strcmp(args[i], "-f"))
+        {
+            printf("Um caminho para o arquivo precisa ser especificado apos '-f'\n");
+        }
     }
 
+    printSolution(inputPath, outputPath);
     return 0;
 }

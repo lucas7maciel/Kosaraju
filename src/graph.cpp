@@ -4,6 +4,7 @@
 #include <stack>
 #include <fstream>
 #include <sstream>
+#include <string>
 
 #include "graph.h"
 
@@ -44,8 +45,10 @@ public:
         return graph;
     }
 
-    void print()
+    void print(string outputPath)
     {
+        ofstream outfile(outputPath);
+
         Graph reversed = this->getReversed();
 
         stack<int> stack;
@@ -69,9 +72,19 @@ public:
 
             if (!visited[v])
             {
-                DFSUtil(v, visited, adjMatrix);
-                cout << endl;
+                DFSUtil(v, visited, adjMatrix, outfile);
+
+                if (outfile.is_open()) {
+                    outfile << endl;
+                } else {
+                    cout << endl;
+                }
             }
+        }
+
+        // Fechar o arquivo apos seu uso
+        if (outfile.is_open()) {
+            outfile.close();
         }
     }
 
@@ -91,30 +104,35 @@ private:
         st.push(v);
     }
 
-    void DFSUtil(int v, vector<int> &visited, vector<vector<int>> &adj)
+    void DFSUtil(int v, vector<int> &visited, vector<vector<int>> &adj, ofstream &file)
     {
         visited[v] = 1;
-        cout << v + 1 << " ";
+
+        if (file.is_open()) {
+            file << v + 1 << " ";
+        } else {
+            cout << v + 1 << " ";
+        }
 
         for (int i = 0; i < adj.size(); i++)
         {
             if (adj[v][i] && !visited[i])
             {
-                DFSUtil(i, visited, adj);
+                DFSUtil(i, visited, adj, file);
             }
         }
     }
 };
 
-int printSolution(char *inputPath)
+int printSolution(string inputPath, string outputPath)
 {
     ifstream inputFile(inputPath);
 
+    // Neste caso, os inputs serao lidos a partir deste arquivo
     if (inputFile.is_open())
     {
         string line;
 
-        //
         int size, edges;
 
         if (getline(inputFile, line))
@@ -126,13 +144,14 @@ int printSolution(char *inputPath)
             }
             else
             {
-                cout << "Error reading numbers from line: " << line << endl;
+                cout << "Erro ao ler numeros do arquivo\n" << line << endl;
+                return 1;
             }
         }
         else
         {
             cout << "Falha ao informar entradas corretamente";
-            return 0;
+            return 1;
         }
 
         //
@@ -154,32 +173,17 @@ int printSolution(char *inputPath)
             graph.addEdge(from - 1, to - 1);
         }
 
-        graph.print();
+        graph.print(outputPath);
 
         inputFile.close();
     }
-    else
+    else if (inputPath.empty())
     {
-        cout << "Falha ao abrir arquivo informado, verifique se o caminho esta correto";
+        // printf("Digite os inputs pelo terminal (A formatacao pode ser encontrada no helper)\n");
+        // Fazer depois...
+    } else {
+        printf("Falha ao abrir arquivo informado, verifique se o caminho esta correto\n");
     }
 
     return 0;
 }
-//     int size, edges;
-
-//     cout << inputPath;
-
-//     cin >> size >> edges;
-
-//     Graph graph(size);
-
-//     for (int i = 0; i < edges; i++)
-//     {
-//         int from, to;
-
-//         cin >> from >> to;
-//         graph.addEdge(from - 1, to - 1);
-//     }
-
-//     graph.print();
-// };
