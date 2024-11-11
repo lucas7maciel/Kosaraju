@@ -1,11 +1,28 @@
-SOURCES = src/main.cpp src/graph.cpp src/helper.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-EXECUTABLE = main
+# Compiler and flags
+CC = g++
+CFLAGS = -Wall -Wextra -std=c++17
 
-all: $(EXECUTABLE)
+# Include and source directories
+INCLUDE_DIR = include
+SRC_DIR = src
+OBJ_DIR = obj
 
-$(EXECUTABLE): $(OBJECTS)
-    g++ -o $(EXECUTABLE) $(OBJECTS)
+# Target executable
+TARGET = kosaraju.exe
 
-$(OBJECTS): $(SOURCES)
-    g++ -c $(SOURCES) -I include
+# Source files
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+
+# Object files
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+    $(CC) $(CFLAGS) -o $@ $^
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+    $(CC) $(CFLAGS) -I $(INCLUDE_DIR) -c $< -o $@
+
+clean:
+    rm -f $(OBJECTS) $(TARGET)
