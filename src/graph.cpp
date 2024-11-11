@@ -54,7 +54,7 @@ public:
         stack<int> stack;
         vector<int> visited(adjMatrix.size(), false);
 
-        for (int i = 0; i < adjMatrix.size(); i++)
+        for (unsigned int i = 0; i < adjMatrix.size(); i++)
         {
             if (!visited[i])
             {
@@ -93,7 +93,7 @@ private:
     {
         visited[v] = 1;
 
-        for (int i = 0; i < graph.adjMatrix.size(); i++)
+        for (unsigned int i = 0; i < graph.adjMatrix.size(); i++)
         {
             if (graph.adjMatrix[v][i] && !visited[i])
             {
@@ -114,7 +114,7 @@ private:
             cout << v + 1 << " ";
         }
 
-        for (int i = 0; i < adj.size(); i++)
+        for (unsigned int i = 0; i < adj.size(); i++)
         {
             if (adj[v][i] && !visited[i])
             {
