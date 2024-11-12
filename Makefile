@@ -8,7 +8,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 # Target executable
-TARGET = kosaraju.exe
+TARGET = kosaraju.bin
 
 # Source files
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
